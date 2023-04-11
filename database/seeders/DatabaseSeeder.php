@@ -12,8 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
-
         if (config('app.default_user_password')) {
              \App\Models\User::factory()->create([
                  'name' => 'Jakub Mrówczyński',
@@ -21,6 +19,8 @@ class DatabaseSeeder extends Seeder
                  'password' => bcrypt(config('app.default_user_password'))
              ]);
         }
+
+        $this->call(ProductSeeder::class);
 
     }
 }
