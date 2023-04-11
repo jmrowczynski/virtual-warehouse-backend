@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->unsignedInteger('quantity');
+            $table->string('name');
             $table->unsignedFloat('price');
+            $table->unsignedInteger('quantity');
         });
     }
 
