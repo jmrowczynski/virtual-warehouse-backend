@@ -11,9 +11,30 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        return DB::table('products')->orderBy('name')->paginate(10);
+
+        $request->validate([
+            'name' => 'string',
+            'price_min' => 'numeric',
+            'price_max' => 'numeric',
+        ]);
+
+        $products = DB::table('products')->orderBy('name');
+
+        $request->whenFilled('name', function ($name) use ($products) {
+            $products->where('name', 'like', '%'. $name. '%');
+        });
+
+        $request->whenFilled('price_min', function ($price_min) use ($products) {
+            $products->where('price', '>=', $price_min);
+        });
+
+        $request->whenFilled('price_max', function ($price_max) use ($products) {
+            $products->where('price', '<=', $price_max);
+        });
+
+        return $products->paginate(10);
     }
 
     /**
