@@ -15,12 +15,29 @@ class ProductController extends Controller
     {
 
         $request->validate([
-            'name' => 'string',
-            'price_min' => 'numeric',
-            'price_max' => 'numeric',
+            'name' => 'string|nullable',
+            'price_min' => 'numeric|nullable',
+            'price_max' => 'numeric|nullable',
+            'quantity_min' => 'numeric|nullable',
+            'order_by' => 'in:name,quantity_min,quantity_max|nullable',
         ]);
 
-        $products = DB::table('products')->orderBy('name');
+        $orderKey = 'name';
+        $orderDirection = 'asc';
+
+        $request->whenFilled('order_by', function ($order_by) use (&$orderKey, &$orderDirection) {
+            if ($order_by === 'quantity_min') {
+                $orderKey = 'quantity';
+                $orderDirection = 'asc';
+            }
+
+            if ($order_by === 'quantity_max') {
+                $orderKey = 'quantity';
+                $orderDirection = 'desc';
+            }
+        });
+
+        $products = DB::table('products')->orderBy($orderKey, $orderDirection);
 
         $request->whenFilled('name', function ($name) use ($products) {
             $products->where('name', 'like', '%'. $name. '%');
