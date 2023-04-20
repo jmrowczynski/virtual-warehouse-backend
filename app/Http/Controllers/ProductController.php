@@ -67,7 +67,13 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $params = $request->validate([
+            'name' =>'string',
+            'price' => 'numeric',
+            'quantity' => 'integer',
+        ]);
+
+        return Product::create(['name' => $params['name'], 'price' => $params['price'], 'quantity' => $params['quantity']]);
     }
 
     /**
