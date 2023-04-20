@@ -68,9 +68,9 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $params = $request->validate([
-            'name' =>'string',
-            'price' => 'numeric',
-            'quantity' => 'integer',
+            'name' =>'string|min:2',
+            'price' => 'numeric|gt:0',
+            'quantity' => 'integer|gte:0',
         ]);
 
         return Product::create(['name' => $params['name'], 'price' => $params['price'], 'quantity' => $params['quantity']]);
@@ -81,7 +81,7 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        return $product;
     }
 
     /**
@@ -97,7 +97,28 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $request->validate([
+            'name' =>'string|min:2|nullable',
+            'price' => 'numeric|gt:0|nullable',
+            'quantity' => 'integer|gte:0|nullable',
+        ]);
+
+        $request->whenFilled('name', function ($name) use ($product) {
+            $product->name = $name;
+        });
+
+        $request->whenFilled('price', function ($price) use ($product) {
+            $product->price = (float)$price;
+        });
+
+        $request->whenFilled('quantity', function ($quantity) use ($product) {
+            $product->quantity = (int)$quantity;
+        });
+
+        $product->save();
+
+        return $product;
+
     }
 
     /**
