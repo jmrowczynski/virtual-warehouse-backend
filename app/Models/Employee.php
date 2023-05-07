@@ -6,20 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Product extends Model
+class Employee extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name', 'price', 'quantity'];
+    protected $fillable = ['name'];
 
     public function handovers(): HasMany
     {
         return $this->hasMany(Handover::class);
     }
-
-    public function receipts(): HasMany
-    {
-        return $this->hasMany(Receipt::class);
-    }
-
 }
