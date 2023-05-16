@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('handovers', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->unsignedInteger('quantity');
+            $table->foreignId('product_id');
+            $table->foreignId('employee_id');
         });
     }
 

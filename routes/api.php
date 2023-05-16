@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\HandoverController;
+use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\EmployeeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,5 +24,8 @@ Route::middleware(['auth:sanctum'])->get('/user', function (Request $request) {
 
 Route::group(['middleware' => 'auth:sanctum'], function () {
     Route::resource('products', ProductController::class);
+    Route::resource('handovers', HandoverController::class);
+    Route::resource('receipts', ReceiptController::class);
+    Route::resource('employees', EmployeeController::class);
 }
 );
