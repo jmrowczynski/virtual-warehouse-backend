@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use PhpParser\Builder;
 
 class ProductController extends Controller
 {
@@ -81,7 +82,9 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        return $product->with('handovers')->first();
+        return $product->with(['handovers' => function ($query) {
+            $query->with('employee');
+        }])->first();
     }
 
     /**
