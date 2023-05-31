@@ -1,4 +1,5 @@
 {
     "(and :count more error)": "(oraz :count więcej)",
-    "(and :count more errors)": "(oraz :count więcej)"
+    "(and :count more errors)": "(oraz :count więcej)",
+    "The product does not have enough quantity.": "Ilość produktu jest zbyt mała."
 }
