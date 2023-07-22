@@ -12,8 +12,6 @@ class Handover extends Model
 
     protected $fillable = ['quantity', 'product_id', 'employee_id'];
 
-    protected $hidden = ['product_id', 'employee_id'];
-
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
